@@ -20,6 +20,8 @@ import com.example.petmatch.R
 import com.example.petmatch.databinding.FragmentAddPetBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.chip.Chip
+import android.widget.ArrayAdapter
 
 class AddPetFragment : Fragment(R.layout.fragment_add_pet) {
 
@@ -49,6 +51,25 @@ class AddPetFragment : Fragment(R.layout.fragment_add_pet) {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
+        // Poblar ChipGroup de tags
+        val tags = listOf("Cariñoso", "Juguetón", "Tranquilo", "Pequeño", "Grande", "Cachorro", "Adulto", "Sociable")
+        tags.forEach { tag ->
+            val chip = Chip(requireContext()).apply {
+                text = tag
+                isCheckable = true
+                isClickable = true
+            }
+            binding.chipGroupTags.addView(chip)
+        }
+
+        // Poblar spinner de tipo de animal
+        val tipos = listOf("Perro", "Gato", "Ave", "Otro")
+        binding.spinnerType.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, tipos)
+
+        // Poblar spinner de sexo
+        val sexos = listOf("Macho", "Hembra")
+        binding.spinnerSex.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, sexos)
+
         // Select image
         binding.btnSelectImage.setOnClickListener {
             startActivityForResult(
@@ -74,6 +95,17 @@ class AddPetFragment : Fragment(R.layout.fragment_add_pet) {
         binding.btnSubmitPet.setOnClickListener {
             val name = binding.etName.text.toString().trim()
             val desc = binding.etDescription.text.toString().trim()
+            val age = binding.etAge.text.toString().trim().toIntOrNull() ?: 0
+            val type = binding.spinnerType.selectedItem?.toString() ?: ""
+            val breed = if (binding.switchBreed.isChecked) "Sí" else "No"
+            val sex = binding.spinnerSex.selectedItem?.toString() ?: ""
+            val isVaccinated = binding.switchVaccinated.isChecked
+            val isSterilized = binding.switchSterilized.isChecked
+            val selectedTags = (0 until binding.chipGroupTags.childCount)
+                .mapNotNull { i ->
+                    val chip = binding.chipGroupTags.getChildAt(i) as? Chip
+                    if (chip?.isChecked == true) chip.text.toString() else null
+                }
             val uri = imageUri
             if (name.isEmpty() || desc.isEmpty() || uri == null) {
                 Toast.makeText(requireContext(), R.string.complete_all_fields, Toast.LENGTH_SHORT).show()
@@ -81,7 +113,7 @@ class AddPetFragment : Fragment(R.layout.fragment_add_pet) {
             }
             val lat = currentLocation?.latitude ?: 0.0
             val lng = currentLocation?.longitude ?: 0.0
-            vm.submitPet(name, desc, uri, lat, lng)
+            vm.submitPet(name, desc, uri, lat, lng, age, type, breed, sex, isVaccinated, isSterilized, selectedTags)
         }
 
         vm.status.observe(viewLifecycleOwner) { result ->

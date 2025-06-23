@@ -57,6 +57,13 @@ class PetRepository {
         imageUri: Uri,
         latitude: Double,
         longitude: Double,
+        age: Int,
+        type: String,
+        breed: String,
+        sex: String,
+        vaccinated: Boolean,
+        sterilized: Boolean,
+        tags: List<String>,
         onComplete: (Boolean, String?) -> Unit
     ) {
         // Genera un ID de mascota
@@ -80,7 +87,14 @@ class PetRepository {
                     imageUrl = uri.toString(),
                     latitude = latitude,
                     longitude = longitude,
-                    timestamp = System.currentTimeMillis()
+                    timestamp = System.currentTimeMillis(),
+                    age = age,
+                    type = type,
+                    breed = breed,
+                    sex = sex,
+                    vaccinated = vaccinated,
+                    sterilized = sterilized,
+                    tags = tags
                 )
                 db.collection("pets").document(petId)
                     .set(pet)

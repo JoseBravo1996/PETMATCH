@@ -9,6 +9,10 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Splash screen config -->
+        <!-- <item name="android:windowSplashScreenBackground">@android:color/white</item> -->
+        <!-- <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_logo</item> -->
+        <!-- <item name="android:windowSplashScreenIconBackground">@android:color/white</item> -->
     </style>
     <!-- Base application theme. -->
     <style name="Base.Theme.PetMatch" parent="Theme.Material3.DayNight.NoActionBar">
