@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">PetMatch</string>
+    <string name="default_web_client_id">TU_CLIENT_ID_AQUÍ.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login">Ingresar</string>
+    <string name="register">Registrarse</string>
+    <string name="choose_language">Seleccionar idioma</string>
+    <string name="settings">Ajustes</string>
+    <string name="download_photo">Download photo</string>
+    <string name="photo_saved">Photo saved in Gallery</string>
+    <string name="invalid_pet_id">Animal Id invalido</string>
+    <string name="pet_not_found">Animal no encontrado</string>
+    <string name="error_loading_detail">Error al descargar</string>
+    <string name="permission_denied">Permiso denegado</string>
+    <string name="error_saving">Error al guardar</string>
+    <string name="uploaded_at">Actualizado</string>
+    <string name="location_not_set">Ubicación no establecida</string>
+    <string name="permission_denied_location">Permiso denegado</string>
+    <string name="complete_all_fields">complete los campos</string>
+    <string name="pet_added">agregar animal</string>
+    <string name="error_saving_pet">error guardando</string>
+    <string name="location_set">no se encontro ubicacion</string>
+    <string name="unable_to_get_location">No encontrada ubicacion</string>
+    <string name="error_getting_location">error obtener ubicacion</string>
+    <string name="select_location">seleccionar ubicacion</string>
+</resources>

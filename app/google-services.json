@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "675503281248",
+    "project_id": "petmatch-ce5af",
+    "storage_bucket": "petmatch-ce5af.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:675503281248:android:c9ec4af60cf16dc1061f05",
+        "android_client_info": {
+          "package_name": "com.example.petmatch"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMZdB_mQbFR4KZXMQc4yzX5k8Wc7Jbg0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

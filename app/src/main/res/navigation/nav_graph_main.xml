@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_main"
+    app:startDestination="@id/swipeFragment">
+
+    <!-- Swipe (deck de mascotas) -->
+    <fragment
+        android:id="@+id/swipeFragment"
+        android:name="com.example.petmatch.ui.swipe.SwipeFragment"
+        android:label="Descubre mascotas" />
+
+    <fragment
+        android:id="@+id/addPetFragment"
+        android:name="com.example.petmatch.ui.addpet.AddPetFragment"
+        android:label="Nueva Mascota" />
+
+    <fragment
+        android:id="@+id/matchesFragment"
+        android:name="com.example.petmatch.ui.match.MatchesFragment"
+        android:label="Matches" />
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.petmatch.ui.detail.DetailFragment"
+        android:label="Detalle de Mascota" >
+
+        <!-- Argumento para indicar qué pet vamos a mostrar -->
+        <argument
+            android:name="petId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.petmatch.ui.settings.SettingsFragment"
+        android:label="@string/settings" />
+    <!-- Aquí puedes añadir MatchesFragment, DetailFragment, SettingsFragment, etc. -->
+    <!--
+    <fragment
+        android:id="@+id/matchesFragment"
+        android:name="com.example.petmatch.ui.matches.MatchesFragment"
+        android:label="Matches" />
+    -->
+</navigation>
