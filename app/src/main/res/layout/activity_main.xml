@@ -27,19 +27,14 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <!-- 3) FAB en la esquina inferior derecha -->
-    <FrameLayout
+    <!-- BottomNavigationView -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabAddPet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_margin="16dp"
-            app:srcCompat="@drawable/ic_add"
-            app:tint="@android:color/white"/>
-    </FrameLayout>
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:menu="@menu/menu_bottom_nav"
+        app:itemIconTint="@color/selector_bottom_nav"
+        app:itemTextColor="@color/selector_bottom_nav"/>
 
 </LinearLayout>

@@ -30,7 +30,7 @@ class PetListAdapter(
 
         fun bind(pet: Pet) {
             binding.tvName.text = pet.name
-            binding.tvDescription.text = pet.description
+         //   binding.tvDescription.text = pet.description
             Glide.with(binding.root)
                 .load(pet.imageUrl)
                 .into(binding.ivPet)

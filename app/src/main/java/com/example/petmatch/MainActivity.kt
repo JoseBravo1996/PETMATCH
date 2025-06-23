@@ -16,6 +16,7 @@ import com.example.petmatch.ui.auth.AuthActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.example.petmatch.databinding.ActivityMainBinding
 import com.example.petmatch.ui.BaseActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : BaseActivity() {
 
@@ -35,13 +36,41 @@ class MainActivity : BaseActivity() {
             return
         }
 
-        // Esto “engancha” tu toolbar como ActionBar
+        // Esto "engancha" tu toolbar como ActionBar
         setSupportActionBar(binding.toolbar)
 
         // Recupera tu NavController
         val navHost = supportFragmentManager
             .findFragmentById(R.id.mainNavHost) as NavHostFragment
         navController = navHost.navController
+
+        // BottomNavigationView setup
+        val bottomNav = binding.bottomNavigationView
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_discover -> {
+                    // TODO: Implementar DiscoverFragment
+                    true
+                }
+                R.id.nav_swipe -> {
+                    navController.navigate(R.id.swipeFragment)
+                    true
+                }
+                R.id.nav_likes -> {
+                    navController.navigate(R.id.matchesFragment)
+                    true
+                }
+                R.id.nav_chats -> {
+                    // TODO: Implementar ChatsFragment
+                    true
+                }
+                R.id.nav_profile -> {
+                    navController.navigate(R.id.addPetFragment)
+                    true
+                }
+                else -> false
+            }
+        }
 
         // Listener explícito de clicks de menú
         binding.toolbar.setOnMenuItemClickListener { item ->
@@ -65,9 +94,9 @@ class MainActivity : BaseActivity() {
         }
 
         // El FAB para agregar mascotas
-        binding.fabAddPet.setOnClickListener {
-            navController.navigate(R.id.addPetFragment)
-        }
+        //binding.fabAddPet.setOnClickListener {
+        //    navController.navigate(R.id.addPetFragment)
+        //}
 
         createNotificationChannel()
         createDownloadChannel()
@@ -79,7 +108,7 @@ class MainActivity : BaseActivity() {
         return true
     }
 
-    // Maneja el clic en “Cerrar sesión”
+    // Maneja el clic en "Cerrar sesión"
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return super.onOptionsItemSelected(item)
     }
