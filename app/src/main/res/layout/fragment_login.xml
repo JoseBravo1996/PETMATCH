@@ -121,7 +121,8 @@
             android:padding="12dp"
             android:textColor="#222"
             android:textColorHint="#888"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="24dp"
+            android:drawableEnd="@drawable/ic_eye" />
 
         <Button
             android:id="@+id/btnLogin"
