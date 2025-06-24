@@ -19,16 +19,25 @@ class SwipeViewModel : ViewModel() {
     private val _likedIds = MutableLiveData<Set<String>>()
     val likedIds: LiveData<Set<String>> = _likedIds
 
+    private val _myPet = MutableLiveData<Pet?>()
+    val myPet: LiveData<Pet?> = _myPet
+
     val pets: LiveData<List<Pet>> = MediatorLiveData<List<Pet>>().apply {
         fun update() {
             val all    = _allPets.value ?: emptyList()
             val liked  = _likedIds.value  ?: emptySet()
             val tags   = _selectedTags.value ?: emptySet()
+            val myPet  = _myPet.value
 
             // 1) Excluir propias y ya likeadas
-            val base = all.filter { it.ownerId != uid && it.id !in liked }
+            var base = all.filter { it.ownerId != uid && it.id !in liked }
 
-            // 2) Si no hay tags seleccionadas, retorno todo
+            // 2) Filtrar por tipo y sexo respecto a mi mascota
+            if (myPet != null) {
+                base = base.filter { it.type == myPet.type && it.sex != myPet.sex }
+            }
+
+            // 3) Si no hay tags seleccionadas, retorno todo
             value = if (tags.isEmpty()) base
             else base.filter { pet ->
                 pet.tags.any { it in tags }
@@ -37,6 +46,7 @@ class SwipeViewModel : ViewModel() {
         addSource(_allPets)     { update() }
         addSource(_likedIds)    { update() }
         addSource(_selectedTags){ update() }
+        addSource(_myPet)       { update() }
     }
 
     init {
@@ -46,6 +56,9 @@ class SwipeViewModel : ViewModel() {
         }
         repo.getUserLikes(uid) { setIds ->
             _likedIds.postValue(setIds)
+        }
+        repo.getUserPets(uid) { pets ->
+            _myPet.postValue(pets.firstOrNull())
         }
     }
 

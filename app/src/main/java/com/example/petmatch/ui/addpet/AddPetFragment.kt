@@ -67,7 +67,7 @@ class AddPetFragment : Fragment(R.layout.fragment_add_pet) {
         }
         binding.btnSelectLocation.setOnClickListener {
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                fetchLastLocation()
+                getFreshLocation()
             } else {
                 requestLocationPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
@@ -82,13 +82,17 @@ class AddPetFragment : Fragment(R.layout.fragment_add_pet) {
             val isVaccinated = binding.switchVaccinated.isChecked
             val isSterilized = binding.switchSterilized.isChecked
             val selectedTags = (0 until binding.chipGroupTags.childCount)
-                .mapNotNull { i -> (binding.chipGroupTags.getChildAt(i) as? Chip)?.takeIf { it.isChecked }?.text.toString() }
+                .mapNotNull { i ->
+                    val chip = binding.chipGroupTags.getChildAt(i) as? Chip
+                    if (chip != null && chip.isChecked && !chip.text.isNullOrBlank()) chip.text.toString() else null
+                }
+            val cleanTags = selectedTags.filter { it != "null" && it.isNotBlank() }
             val uri = imageUri
             if (name.isEmpty() || desc.isEmpty() || uri == null) {
                 Toast.makeText(requireContext(), R.string.complete_all_fields, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            vm.submitPet(name, desc, uri, currentLocation?.latitude ?: 0.0, currentLocation?.longitude ?: 0.0, age, type, breed, sex, isVaccinated, isSterilized, selectedTags)
+            vm.submitPet(name, desc, uri, currentLocation?.latitude ?: 0.0, currentLocation?.longitude ?: 0.0, age, type, breed, sex, isVaccinated, isSterilized, cleanTags)
         }
 
         vm.status.observe(viewLifecycleOwner) { result ->
