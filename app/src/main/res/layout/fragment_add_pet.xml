@@ -36,7 +36,7 @@
             android:padding="24dp">
 
             <TextView
-                android:text="Agregar mascota"
+                android:text="@string/add_pet"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:textColor="#D35400"
@@ -87,7 +87,7 @@
 
                 <EditText
                     android:id="@+id/etDescription"
-                    android:hint="Breed"
+                    android:hint="@string/breed"
                     android:background="@drawable/rounded_input"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -116,7 +116,7 @@
                     android:id="@+id/btnSelectLocation"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:text="Elegir ubicación"
+                    android:text="@string/choose_location"
                     android:background="@drawable/rounded_yellow_button"
                     android:textColor="#FFF"
                     android:textStyle="bold"
@@ -125,7 +125,7 @@
                 <!-- Edad -->
                 <EditText
                     android:id="@+id/etAge"
-                    android:hint="Edad (años)"
+                    android:hint="@string/age_years"
                     android:inputType="number"
                     android:background="@drawable/rounded_input"
                     android:layout_width="match_parent"
@@ -159,7 +159,7 @@
                     android:gravity="center_vertical"
                     android:layout_marginTop="12dp">
                     <TextView
-                        android:text="¿Es de raza?"
+                        android:text="@string/is_purebred"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -179,7 +179,7 @@
                     android:gravity="center_vertical"
                     android:layout_marginTop="8dp">
                     <TextView
-                        android:text="¿Vacunado?"
+                        android:text="@string/is_vaccinated"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -199,7 +199,7 @@
                     android:gravity="center_vertical"
                     android:layout_marginTop="8dp">
                     <TextView
-                        android:text="¿Esterilizado?"
+                        android:text="@string/is_neutered"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -213,7 +213,7 @@
 
                 <Button
                     android:id="@+id/btnSubmitPet"
-                    android:text="Guardar mascota"
+                    android:text="@string/save_pet"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:background="@drawable/rounded_yellow_button"

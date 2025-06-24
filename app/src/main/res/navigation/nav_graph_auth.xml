@@ -9,7 +9,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.petmatch.ui.auth.LoginFragment"
-        android:label="Ingresar">
+        android:label="@string/login">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
@@ -24,7 +24,7 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.petmatch.ui.auth.RegisterFragment"
-        android:label="Registrarse">
+        android:label="@string/register">
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />

@@ -100,7 +100,7 @@
 
         <EditText
             android:id="@+id/etEmail"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:background="@drawable/rounded_input"
             android:layout_width="match_parent"
@@ -112,7 +112,7 @@
 
         <EditText
             android:id="@+id/etPassword"
-            android:hint="Contraseña"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:background="@drawable/rounded_input"
             android:layout_width="match_parent"
@@ -125,7 +125,7 @@
 
         <EditText
             android:id="@+id/etPasswordConfirm"
-            android:hint="Confirmar contraseña"
+            android:hint="@string/confirm_password"
             android:inputType="textPassword"
             android:background="@drawable/rounded_input"
             android:layout_width="match_parent"
@@ -138,7 +138,7 @@
 
         <Button
             android:id="@+id/btnRegister"
-            android:text="Registrarse"
+            android:text="@string/register"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@drawable/rounded_yellow_button"
@@ -149,7 +149,7 @@
 
         <TextView
             android:id="@+id/tvGoToLogin"
-            android:text="¿Ya tienes cuenta? Inicia sesión"
+            android:text="@string/go_to_login"
             android:textColor="#FFF"
             android:textSize="16sp"
             android:textStyle="bold"

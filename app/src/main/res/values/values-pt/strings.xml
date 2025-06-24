@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">PetMatch</string>
-    <string name="login">Entrar</string>
-    <string name="register">Registrar-se</string>
-    <string name="choose_language">Selecione o idioma</string>
-    <string name="settings">Configurações</string>
-    <string name="download_photo">Baixar foto</string>
-    <string name="photo_saved">Foto salva na Galeria</string>
-</resources>

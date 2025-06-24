@@ -89,7 +89,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:text="Log In"
+            android:text="@string/login"
             android:textSize="28sp"
             android:textStyle="bold"
             android:textColor="#FFF"
@@ -101,7 +101,7 @@
 
         <EditText
             android:id="@+id/etEmail"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:background="@drawable/rounded_input"
             android:layout_width="match_parent"
@@ -126,7 +126,7 @@
 
         <Button
             android:id="@+id/btnLogin"
-            android:text="Log In"
+            android:text="@string/login"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@drawable/rounded_yellow_button"
@@ -137,7 +137,7 @@
 
         <TextView
             android:id="@+id/tvForgotPassword"
-            android:text="Forgot password?"
+            android:text="@string/forgot_password"
             android:textColor="#FFF"
             android:textSize="16sp"
             android:layout_marginTop="8dp"
