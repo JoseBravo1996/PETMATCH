@@ -24,6 +24,8 @@ import com.example.petmatch.databinding.FragmentAddPetBinding
 import com.google.android.gms.location.*
 import com.google.android.material.chip.Chip
 import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.firebase.auth.FirebaseAuth
+import com.example.petmatch.data.repository.PetRepository
 
 class AddPetFragment : Fragment(R.layout.fragment_add_pet) {
 
@@ -99,6 +101,19 @@ class AddPetFragment : Fragment(R.layout.fragment_add_pet) {
                     Toast.makeText(requireContext(), getString(R.string.error_saving_pet, e.message), Toast.LENGTH_LONG).show()
                 }
             )
+        }
+
+        // Bloqueo: si ya tiene mascota, redirigir al detalle
+        val repo = PetRepository()
+        val uid = FirebaseAuth.getInstance().currentUser!!.uid
+        repo.getUserPets(uid) { pets ->
+            if (pets.isNotEmpty()) {
+                requireActivity().runOnUiThread {
+                    Toast.makeText(requireContext(), "Solo puedes registrar una mascota", Toast.LENGTH_LONG).show()
+                    val bundle = Bundle().apply { putString("petId", pets[0].id) }
+                    findNavController().navigate(R.id.detailFragment, bundle)
+                }
+            }
         }
     }
 

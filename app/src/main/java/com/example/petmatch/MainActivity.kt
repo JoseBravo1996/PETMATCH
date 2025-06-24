@@ -65,7 +65,22 @@ class MainActivity : BaseActivity() {
                     true
                 }
                 R.id.nav_profile -> {
-                    navController.navigate(R.id.addPetFragment)
+                    val repo = com.example.petmatch.data.repository.PetRepository()
+                    val uid = auth.currentUser!!.uid
+                    repo.getUserPets(uid) { pets ->
+                        runOnUiThread {
+                            if (pets.isNotEmpty()) {
+                                // Navegar al detalle de la mascota del usuario
+                                val bundle = android.os.Bundle().apply {
+                                    putString("petId", pets[0].id)
+                                }
+                                navController.navigate(R.id.detailFragment, bundle)
+                            } else {
+                                // Navegar a agregar mascota
+                                navController.navigate(R.id.addPetFragment)
+                            }
+                        }
+                    }
                     true
                 }
                 else -> false

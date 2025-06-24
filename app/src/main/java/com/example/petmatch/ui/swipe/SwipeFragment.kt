@@ -11,6 +11,7 @@ import com.example.petmatch.R
 import com.example.petmatch.databinding.FragmentSwipeBinding
 import com.google.android.material.chip.Chip
 import com.yuyakaido.android.cardstackview.*
+import com.google.firebase.auth.FirebaseAuth
 
 class SwipeFragment : Fragment(R.layout.fragment_swipe) {
     private var _binding: FragmentSwipeBinding? = null
@@ -21,6 +22,19 @@ class SwipeFragment : Fragment(R.layout.fragment_swipe) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FragmentSwipeBinding.bind(view)
+
+        // Bloqueo: si NO tiene mascota, redirigir a alta
+        val repo = com.example.petmatch.data.repository.PetRepository()
+        val uid = FirebaseAuth.getInstance().currentUser!!.uid
+        repo.getUserPets(uid) { pets ->
+            if (pets.isEmpty()) {
+                requireActivity().runOnUiThread {
+                    android.widget.Toast.makeText(requireContext(), "Debes registrar tu mascota para ver otras", android.widget.Toast.LENGTH_LONG).show()
+                    findNavController().navigate(com.example.petmatch.R.id.addPetFragment)
+                }
+                return@getUserPets
+            }
+        }
 
         manager = CardStackLayoutManager(requireContext(), object : CardStackListener {
             override fun onCardSwiped(direction: Direction?) {
