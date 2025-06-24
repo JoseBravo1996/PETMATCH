@@ -7,10 +7,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.Geocoder
+import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -91,19 +94,77 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     @SuppressLint("StringFormatInvalid")
     private fun bindPet(pet: Pet) {
+        // Imagen
+        Glide.with(requireContext())
+            .load(pet.imageUrl)
+            .into(binding.ivDetailPet)
+
+        // Nombre y edad
         binding.tvDetailName.text = pet.name
+        binding.tvDetailAge.text = if (pet.age > 0) ", ${pet.age} años" else ""
+
+        // Datos clave
+        binding.tvDetailType.text = pet.type
+        binding.tvDetailBreed.text = pet.breed
+        binding.tvDetailSex.text = pet.sex
+        binding.chipDetailVaccinated.visibility = if (pet.vaccinated) View.VISIBLE else View.GONE
+        binding.chipDetailSterilized.visibility = if (pet.sterilized) View.VISIBLE else View.GONE
+
+        // Ubicación (ciudad con Geocoder)
+        if (pet.latitude != 0.0 && pet.longitude != 0.0) {
+            val geocoder = Geocoder(requireContext(), Locale.getDefault())
+            try {
+                val addresses = geocoder.getFromLocation(pet.latitude, pet.longitude, 1)
+                if (!addresses.isNullOrEmpty()) {
+                    val city = addresses[0].locality ?: addresses[0].subAdminArea ?: addresses[0].adminArea ?: ""
+                    binding.tvDetailLocation.text = if (city.isNotBlank()) city else String.format("Lat: %.3f, Lon: %.3f", pet.latitude, pet.longitude)
+                } else {
+                    binding.tvDetailLocation.text = String.format("Lat: %.3f, Lon: %.3f", pet.latitude, pet.longitude)
+                }
+            } catch (e: Exception) {
+                binding.tvDetailLocation.text = String.format("Lat: %.3f, Lon: %.3f", pet.latitude, pet.longitude)
+            }
+        } else {
+            binding.tvDetailLocation.text = "Ubicación desconocida"
+        }
+        // Distancia (placeholder, puedes pasar la ubicación del usuario si la tienes)
+        binding.tvDetailDistance.text = "~? km de ti"
+
+        // Chips de tags
+        binding.chipGroupDetailTags.removeAllViews()
+        pet.tags.filter { it.isNotBlank() && it != "null" }.forEach { tag ->
+            val chip = com.google.android.material.chip.Chip(requireContext()).apply {
+                text = tag
+                isClickable = false
+                isCheckable = false
+                setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelLarge)
+            }
+            binding.chipGroupDetailTags.addView(chip)
+        }
+
+        // Descripción
         binding.tvDetailDescription.text = pet.description
+
+        // Fecha de publicación
         binding.tvDetailTimestamp.text = getString(
             R.string.uploaded_at,
             SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date(pet.timestamp))
         )
 
-        val mapFragment = childFragmentManager
-            .findFragmentById(R.id.mapFragment) as SupportMapFragment
-        mapFragment.getMapAsync { map ->
-            val pos = LatLng(pet.latitude, pet.longitude)
-            map.addMarker(MarkerOptions().position(pos).title(pet.name))
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 15f))
+        // Mapa robusto con logs
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapFragment) as? com.google.android.gms.maps.SupportMapFragment
+        if (mapFragment != null && pet.latitude != 0.0 && pet.longitude != 0.0) {
+            mapFragment.getMapAsync { map ->
+                val pos = com.google.android.gms.maps.model.LatLng(pet.latitude, pet.longitude)
+                map.clear()
+                map.addMarker(com.google.android.gms.maps.model.MarkerOptions().position(pos).title(pet.name))
+                map.moveCamera(com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom(pos, 18f))
+                android.util.Log.d("DetailFragment", "Mapa cargado: ${pet.latitude}, ${pet.longitude}")
+                Toast.makeText(requireContext(), "Mapa cargado: ${pet.latitude}, ${pet.longitude}", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            android.util.Log.e("DetailFragment", "No se pudo cargar el mapa o coordenadas inválidas")
+            Toast.makeText(requireContext(), "No se pudo cargar el mapa", Toast.LENGTH_SHORT).show()
         }
     }
 

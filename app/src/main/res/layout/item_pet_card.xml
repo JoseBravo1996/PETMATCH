@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="28dp"
     card_view:cardElevation="10dp"
-    android:layout_margin="16dp">
+    android:layout_margin="16dp"
+    app:ignore="NamespaceTypo">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp">
+        android:layout_height="500dp">
 
         <!-- Imagen de la mascota -->
         <ImageView
             android:id="@+id/ivPet"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="320dp"
             android:scaleType="centerCrop"
             android:clipToOutline="true" />
 
-        <!-- Gradiente superior para mejor legibilidad del texto -->
+        <!-- Gradiente superior para legibilidad -->
         <View
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:background="@drawable/top_gradient" />
 
-        <!-- Nombre, edad y chips -->
+        <!-- Nombre y edad sobre la foto -->
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|start"
-            android:layout_marginTop="24dp"
-            android:layout_marginStart="24dp">
-
+            android:layout_marginTop="28dp"
+            android:layout_marginStart="28dp">
             <TextView
                 android:id="@+id/tvName"
                 android:textStyle="bold"
@@ -46,40 +46,164 @@
                 android:shadowRadius="4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tvAge"
+                android:textColor="#FFF"
+                android:textSize="22sp"
+                android:layout_marginStart="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
 
+        <!-- Panel inferior blanco con info y scroll -->
+        <LinearLayout
+            android:id="@+id/infoPanel"
+            android:orientation="vertical"
+            android:background="#FFF"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="0dp"
+            android:padding="20dp"
+            android:elevation="8dp"
+            android:clipToOutline="true"
+            android:backgroundTint="#FFF"
+            android:translationY="40dp"
+            android:clipChildren="true"
+            android:clipToPadding="false"
+            card_view:cardCornerRadius="28dp">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="Tipo: "
+                        android:textColor="#888"
+                        android:textSize="13sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tvType"
+                        android:textColor="#222"
+                        android:textSize="15sp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:text="Raza: "
+                        android:textColor="#888"
+                        android:textSize="13sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tvBreed"
+                        android:textColor="#222"
+                        android:textSize="15sp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:text="Sexo: "
+                        android:textColor="#888"
+                        android:textSize="13sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tvSex"
+                        android:textColor="#222"
+                        android:textSize="15sp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/chipVaccinated"
+                        android:text="Vacunado"
+                        android:textColor="#388E3C"
+                        android:textSize="13sp"
+                        android:background="@drawable/chip_white"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"/>
+                    <TextView
+                        android:id="@+id/chipSterilized"
+                        android:text="Esterilizado"
+                        android:textColor="#1976D2"
+                        android:textSize="13sp"
+                        android:background="@drawable/chip_white"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Fila ubicación y distancia -->
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp">
-
+                <ImageView
+                    android:src="@drawable/ic_location_on"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:tint="#888"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="4dp"/>
                 <TextView
-                    android:id="@+id/chipNewProfile"
-                    android:text="Perfil nuevo"
+                    android:id="@+id/tvLocation"
                     android:textColor="#222"
-                    android:textSize="13sp"
-                    android:background="@drawable/chip_white"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:layout_marginEnd="8dp"
+                    android:textSize="15sp"
+                    android:layout_marginEnd="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
-
+                <ImageView
+                    android:src="@android:drawable/ic_menu_mylocation"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:tint="#888"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="4dp"/>
                 <TextView
-                    android:id="@+id/chipDistance"
-                    android:text="A ~20 km de ti"
-                    android:textColor="#FFF"
-                    android:textSize="13sp"
-                    android:background="@drawable/chip_dark"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
+                    android:id="@+id/tvDistance"
+                    android:textColor="#222"
+                    android:textSize="15sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
+
+            <!-- Chips de tags -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupTags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:singleLine="true"
+                app:chipSpacing="8dp" />
+
+            <!-- Descripción -->
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#444"
+                android:textSize="15sp"
+                android:layout_marginTop="8dp"
+                android:maxLines="4"
+                android:ellipsize="end"/>
         </LinearLayout>
 
         <!-- Botones tipo Tinder -->
@@ -97,8 +221,7 @@
                 android:layout_height="72dp"
                 android:background="@drawable/btn_circle_white"
                 android:src="@android:drawable/ic_delete"
-                android:tint="#222"
-                android:contentDescription="Dislike"/>
+                android:contentDescription="Dislike" card_view:tint="#222" />
 
             <Space
                 android:layout_width="48dp"
@@ -110,8 +233,8 @@
                 android:layout_height="72dp"
                 android:background="@drawable/btn_circle_white"
                 android:src="@android:drawable/btn_star_big_on"
-                android:tint="#F15A4A"
-                android:contentDescription="Like"/>
+                android:contentDescription="Like"
+                card_view:tint="#F15A4A" />
         </LinearLayout>
 
     </FrameLayout>

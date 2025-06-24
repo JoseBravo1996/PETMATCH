@@ -1,51 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/detailRoot"
-    android:orientation="vertical"
-    android:padding="16dp"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FAFAFA">
 
-    <!-- Mapa -->
-    <fragment
-        android:id="@+id/mapFragment"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
-
-    <!-- Nombre de la mascota -->
-    <TextView
-        android:id="@+id/tvDetailName"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nombre"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_marginTop="12dp"/>
+        android:padding="0dp">
 
-    <!-- Descripción -->
-    <TextView
-        android:id="@+id/tvDetailDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Descripción de la mascota"
-        android:layout_marginTop="8dp"/>
+        <!-- Imagen grande de la mascota -->
+        <ImageView
+            android:id="@+id/ivDetailPet"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:scaleType="centerCrop"
+            android:background="#EEE"
+            android:contentDescription="Foto de la mascota" />
 
-    <!-- (Opcional) Otros campos, p.ej. fecha de subida -->
-    <TextView
-        android:id="@+id/tvDetailTimestamp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Subida: 01/01/2025"
-        android:layout_marginTop="8dp"
-        android:textSize="12sp"
-        android:textColor="@android:color/darker_gray"/>
+        <!-- Card con la info -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="#FFF"
+            android:elevation="8dp"
+            app:cardCornerRadius="28dp">
 
-    <Button
-        android:id="@+id/btnDownload"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/download_photo"
-        android:layout_marginTop="16dp"/>
-</LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+                <!-- Nombre y edad -->
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tvDetailName"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        android:textColor="#222"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tvDetailAge"
+                        android:textColor="#666"
+                        android:textSize="22sp"
+                        android:layout_marginStart="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <!-- Fila de datos clave -->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    android:layout_marginTop="8dp">
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView android:text="Tipo: " android:textColor="#888" android:textSize="13sp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <TextView android:id="@+id/tvDetailType" android:textColor="#222" android:textSize="15sp" android:layout_marginEnd="12dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <TextView android:text="Raza: " android:textColor="#888" android:textSize="13sp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <TextView android:id="@+id/tvDetailBreed" android:textColor="#222" android:textSize="15sp" android:layout_marginEnd="12dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <TextView android:text="Sexo: " android:textColor="#888" android:textSize="13sp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <TextView android:id="@+id/tvDetailSex" android:textColor="#222" android:textSize="15sp" android:layout_marginEnd="12dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                        <TextView android:id="@+id/chipDetailVaccinated" android:text="Vacunado" android:textColor="#388E3C" android:textSize="13sp" android:background="@drawable/chip_white" android:paddingLeft="12dp" android:paddingRight="12dp" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_marginEnd="8dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:visibility="gone"/>
+                        <TextView android:id="@+id/chipDetailSterilized" android:text="Esterilizado" android:textColor="#1976D2" android:textSize="13sp" android:background="@drawable/chip_white" android:paddingLeft="12dp" android:paddingRight="12dp" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:visibility="gone"/>
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <!-- Fila ubicación y distancia -->
+                <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                    <ImageView android:src="@drawable/ic_location_on" android:layout_width="18dp" android:layout_height="18dp" android:tint="#888" android:layout_gravity="center_vertical" android:layout_marginEnd="4dp"/>
+                    <TextView android:id="@+id/tvDetailLocation" android:textColor="#222" android:textSize="15sp" android:layout_marginEnd="16dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    <ImageView android:src="@android:drawable/ic_menu_mylocation" android:layout_width="18dp" android:layout_height="18dp" android:tint="#888" android:layout_gravity="center_vertical" android:layout_marginEnd="4dp"/>
+                    <TextView android:id="@+id/tvDetailDistance" android:textColor="#222" android:textSize="15sp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <!-- Chips de tags -->
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupDetailTags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:singleLine="true"
+                    app:chipSpacing="8dp" />
+
+                <!-- Descripción -->
+                <TextView
+                    android:id="@+id/tvDetailDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#444"
+                    android:textSize="15sp"
+                    android:layout_marginTop="8dp"
+                    android:maxLines="6"
+                    android:ellipsize="end"/>
+
+                <!-- Fecha de publicación -->
+                <TextView
+                    android:id="@+id/tvDetailTimestamp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="#888"
+                    android:layout_marginTop="8dp"/>
+
+                <!-- Botón de descarga -->
+                <Button
+                    android:id="@+id/btnDownload"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/download_photo"
+                    android:layout_marginTop="16dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Mapa al final -->
+        <fragment
+            android:id="@+id/mapFragment"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+</ScrollView>
