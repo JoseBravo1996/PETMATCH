@@ -155,12 +155,12 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapFragment) as? com.google.android.gms.maps.SupportMapFragment
         if (mapFragment != null && pet.latitude != 0.0 && pet.longitude != 0.0) {
             mapFragment.getMapAsync { map ->
+                map.uiSettings.isZoomControlsEnabled = true
                 val pos = com.google.android.gms.maps.model.LatLng(pet.latitude, pet.longitude)
                 map.clear()
                 map.addMarker(com.google.android.gms.maps.model.MarkerOptions().position(pos).title(pet.name))
                 map.moveCamera(com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom(pos, 18f))
                 android.util.Log.d("DetailFragment", "Mapa cargado: ${pet.latitude}, ${pet.longitude}")
-                Toast.makeText(requireContext(), "Mapa cargado: ${pet.latitude}, ${pet.longitude}", Toast.LENGTH_SHORT).show()
             }
         } else {
             android.util.Log.e("DetailFragment", "No se pudo cargar el mapa o coordenadas inválidas")
