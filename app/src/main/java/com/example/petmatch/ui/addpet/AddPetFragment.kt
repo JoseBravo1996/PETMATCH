@@ -6,10 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Looper
 import android.provider.Settings
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -18,10 +21,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.petmatch.R
 import com.example.petmatch.databinding.FragmentAddPetBinding
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.google.android.material.chip.Chip
-import android.widget.ArrayAdapter
+import com.google.android.gms.tasks.CancellationTokenSource
 
 class AddPetFragment : Fragment(R.layout.fragment_add_pet) {
 
@@ -33,15 +35,11 @@ class AddPetFragment : Fragment(R.layout.fragment_add_pet) {
     private var currentLocation: Location? = null
     private var imageUri: Uri? = null
 
-    // Permission launcher for location
     private val requestLocationPermission = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        if (granted) {
-            fetchLastLocation()
-        } else {
-            Toast.makeText(requireContext(), R.string.permission_denied_location, Toast.LENGTH_SHORT).show()
-        }
+        if (granted) fetchLastLocation()
+        else Toast.makeText(requireContext(), R.string.permission_denied_location, Toast.LENGTH_SHORT).show()
     }
 
     @SuppressLint("StringFormatInvalid")
@@ -51,47 +49,27 @@ class AddPetFragment : Fragment(R.layout.fragment_add_pet) {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
-        // Poblar ChipGroup de tags
+        // Chip tags
         val tags = listOf("Cariñoso", "Juguetón", "Tranquilo", "Pequeño", "Grande", "Cachorro", "Adulto", "Sociable")
         tags.forEach { tag ->
-            val chip = Chip(requireContext()).apply {
-                text = tag
-                isCheckable = true
-                isClickable = true
-            }
-            binding.chipGroupTags.addView(chip)
+            binding.chipGroupTags.addView(Chip(requireContext()).apply {
+                text = tag; isCheckable = true
+            })
         }
+        // Spinners
+        binding.spinnerType.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, listOf("Perro","Gato","Ave","Otro"))
+        binding.spinnerSex.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, listOf("Macho","Hembra"))
 
-        // Poblar spinner de tipo de animal
-        val tipos = listOf("Perro", "Gato", "Ave", "Otro")
-        binding.spinnerType.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, tipos)
-
-        // Poblar spinner de sexo
-        val sexos = listOf("Macho", "Hembra")
-        binding.spinnerSex.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, sexos)
-
-        // Select image
         binding.btnSelectImage.setOnClickListener {
-            startActivityForResult(
-                Intent(Intent.ACTION_GET_CONTENT).apply { type = "image/*" },
-                REQUEST_IMAGE
-            )
+            startActivityForResult(Intent(Intent.ACTION_GET_CONTENT).apply { type = "image/*" }, REQUEST_IMAGE)
         }
-
-        // Request location
         binding.btnSelectLocation.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 fetchLastLocation()
             } else {
                 requestLocationPermission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
         }
-
-        // Submit pet
         binding.btnSubmitPet.setOnClickListener {
             val name = binding.etName.text.toString().trim()
             val desc = binding.etDescription.text.toString().trim()
@@ -102,18 +80,13 @@ class AddPetFragment : Fragment(R.layout.fragment_add_pet) {
             val isVaccinated = binding.switchVaccinated.isChecked
             val isSterilized = binding.switchSterilized.isChecked
             val selectedTags = (0 until binding.chipGroupTags.childCount)
-                .mapNotNull { i ->
-                    val chip = binding.chipGroupTags.getChildAt(i) as? Chip
-                    if (chip?.isChecked == true) chip.text.toString() else null
-                }
+                .mapNotNull { i -> (binding.chipGroupTags.getChildAt(i) as? Chip)?.takeIf { it.isChecked }?.text.toString() }
             val uri = imageUri
             if (name.isEmpty() || desc.isEmpty() || uri == null) {
                 Toast.makeText(requireContext(), R.string.complete_all_fields, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val lat = currentLocation?.latitude ?: 0.0
-            val lng = currentLocation?.longitude ?: 0.0
-            vm.submitPet(name, desc, uri, lat, lng, age, type, breed, sex, isVaccinated, isSterilized, selectedTags)
+            vm.submitPet(name, desc, uri, currentLocation?.latitude ?: 0.0, currentLocation?.longitude ?: 0.0, age, type, breed, sex, isVaccinated, isSterilized, selectedTags)
         }
 
         vm.status.observe(viewLifecycleOwner) { result ->
@@ -129,32 +102,52 @@ class AddPetFragment : Fragment(R.layout.fragment_add_pet) {
         }
     }
 
-    @SuppressLint("StringFormatInvalid")
+    @SuppressLint("MissingPermission")
     private fun fetchLastLocation() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // Should not happen as we check before, but guard
+        val locMgr = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (!locMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Toast.makeText(requireContext(), "Por favor, activa el GPS para obtener la ubicación", Toast.LENGTH_LONG).show()
             return
         }
+        // Intenta obtener la última ubicación almacenada
         fusedLocationClient.lastLocation
             .addOnSuccessListener { loc ->
-                if (loc != null) {
-                    currentLocation = loc
-                    binding.tvLocation.text = getString(
-                        R.string.location_set,
-                        loc.latitude,
-                        loc.longitude
-                    )
-                } else {
-                    Toast.makeText(requireContext(), R.string.unable_to_get_location, Toast.LENGTH_SHORT).show()
-                }
+                if (loc != null) updateLocation(loc)
+                else getFreshLocation()
             }
             .addOnFailureListener {
                 Toast.makeText(requireContext(), R.string.error_getting_location, Toast.LENGTH_SHORT).show()
             }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getFreshLocation() {
+        // Usa getCurrentLocation para una sola petición rápida
+        fusedLocationClient.getCurrentLocation(
+            Priority.PRIORITY_HIGH_ACCURACY,
+            CancellationTokenSource().token
+        ).addOnSuccessListener { loc ->
+            if (loc != null) updateLocation(loc)
+            else Toast.makeText(requireContext(), R.string.unable_to_get_location, Toast.LENGTH_SHORT).show()
+        }
+        // Opcional: fallback con requestLocationUpdates
+        val req = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
+            .setMinUpdateIntervalMillis(500)
+            .setMaxUpdates(1)
+            .build()
+        fusedLocationClient.requestLocationUpdates(req,
+            object : LocationCallback() {
+                override fun onLocationResult(result: LocationResult) {
+                    result.lastLocation?.let { updateLocation(it) }
+                    fusedLocationClient.removeLocationUpdates(this)
+                }
+            }, Looper.getMainLooper()
+        )
+    }
+
+    private fun updateLocation(loc: Location) {
+        currentLocation = loc
+        binding.tvLocation.text = getString(R.string.location_set, loc.latitude, loc.longitude)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

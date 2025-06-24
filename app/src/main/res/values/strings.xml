@@ -20,7 +20,7 @@
     <string name="complete_all_fields">complete los campos</string>
     <string name="pet_added">agregar animal</string>
     <string name="error_saving_pet">error guardando</string>
-    <string name="location_set">no se encontro ubicacion</string>
+    <string name="location_set">Ubicación: %1$.5f, %2$.5f</string>
     <string name="unable_to_get_location">No encontrada ubicacion</string>
     <string name="error_getting_location">error obtener ubicacion</string>
     <string name="select_location">seleccionar ubicacion</string>
