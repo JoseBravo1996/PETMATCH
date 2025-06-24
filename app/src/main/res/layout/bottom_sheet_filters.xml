@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <!-- Título y cerrar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <TextView
+            android:text="Filtros"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#222"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <ImageButton
+            android:id="@+id/btnClose"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:tint="#222"/>
+    </LinearLayout>
+
+    <!-- Sexo -->
+    <TextView
+        android:text="Mostrar"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <RadioGroup
+        android:id="@+id/rgSexo"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton android:id="@+id/rbMacho" android:text="Machos" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <RadioButton android:id="@+id/rbHembra" android:text="Hembras" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <RadioButton android:id="@+id/rbAmbos" android:text="Ambos" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    </RadioGroup>
+
+    <!-- Edad -->
+    <TextView
+        android:text="Edad"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+        <EditText
+            android:id="@+id/etEdadMin"
+            android:hint="Mín"
+            android:inputType="number"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_input"
+            android:padding="12dp"
+            android:textColor="#222"
+            android:textColorHint="#888"/>
+        <TextView
+            android:text="-"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"/>
+        <EditText
+            android:id="@+id/etEdadMax"
+            android:hint="Máx"
+            android:inputType="number"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_input"
+            android:padding="12dp"
+            android:textColor="#222"
+            android:textColorHint="#888"/>
+    </LinearLayout>
+
+    <!-- Distancia -->
+    <TextView
+        android:text="Distancia (km)"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/etDistancia"
+        android:hint="Ej: 10"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/rounded_input"
+        android:padding="12dp"
+        android:textColor="#222"
+        android:textColorHint="#888"/>
+
+    <!-- Botón aplicar -->
+    <Button
+        android:id="@+id/btnAplicarFiltros"
+        android:text="Aplicar filtros"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:backgroundTint="#FFC107"
+        android:textColor="#222"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp"/>
+</LinearLayout> 
