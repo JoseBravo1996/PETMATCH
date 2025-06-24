@@ -122,20 +122,6 @@ class SwipeFragment : Fragment(R.layout.fragment_swipe) {
 
         viewModel.pets.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
-            // Mostrar Toast con info de filtros y cantidad
-            val sexFiltro = viewModel.myPet.value?.sex ?: "?"
-            val filtroSexo = viewModel.myPet.value?.sex ?: "?"
-            val filtroEdadMin = viewModel.pets.value?.let { _ -> viewModel.pets.value } ?: ""
-            val filtroEdadMax = viewModel.pets.value?.let { _ -> viewModel.pets.value } ?: ""
-            val filtroDist = viewModel.pets.value?.let { _ -> viewModel.pets.value } ?: ""
-            Toast.makeText(requireContext(), "Mascotas: ${list.size} | Sexo: $sexFiltro | Edad: $filtroEdadMin-$filtroEdadMax | Dist: $filtroDist km", Toast.LENGTH_LONG).show()
-
-            // Agregar logs detallados
-            android.util.Log.d("SwipeFiltro", "Mascotas filtradas: ${list.size}")
-            android.util.Log.d("SwipeFiltro", "Sexo filtro: $sexFiltro")
-            android.util.Log.d("SwipeFiltro", "Edad filtro: $filtroEdadMin-$filtroEdadMax")
-            android.util.Log.d("SwipeFiltro", "Distancia filtro: $filtroDist km")
-            android.util.Log.d("SwipeFiltro", "IDs mascotas: ${list.map { it.id }}")
         }
 
         // Botón de filtro

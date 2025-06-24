@@ -1,8 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
+    <!-- <item
         android:id="@+id/nav_discover"
         android:icon="@drawable/ic_location_on"
-        android:title="Descubre" />
+        android:title="Descubre" /> -->
     <item
         android:id="@+id/nav_swipe"
         android:icon="@drawable/ic_swipe"
@@ -11,10 +11,10 @@
         android:id="@+id/nav_likes"
         android:icon="@drawable/ic_favorite"
         android:title="Les gusta" />
-    <item
+    <!-- <item
         android:id="@+id/nav_chats"
         android:icon="@drawable/ic_chat_bubble"
-        android:title="Chats" />
+        android:title="Chats" /> -->
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/ic_person"

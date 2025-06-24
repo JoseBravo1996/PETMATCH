@@ -48,10 +48,10 @@ class MainActivity : BaseActivity() {
         val bottomNav = binding.bottomNavigationView
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.nav_discover -> {
+                //R.id.nav_discover -> {
                     // TODO: Implementar DiscoverFragment
-                    true
-                }
+                    //true
+                //}
                 R.id.nav_swipe -> {
                     navController.navigate(R.id.swipeFragment)
                     true
@@ -60,10 +60,10 @@ class MainActivity : BaseActivity() {
                     navController.navigate(R.id.matchesFragment)
                     true
                 }
-                R.id.nav_chats -> {
+                //R.id.nav_chats -> {
                     // TODO: Implementar ChatsFragment
-                    true
-                }
+                    //true
+                //}
                 R.id.nav_profile -> {
                     val repo = com.example.petmatch.data.repository.PetRepository()
                     val uid = auth.currentUser!!.uid
@@ -90,10 +90,10 @@ class MainActivity : BaseActivity() {
         // Listener explícito de clicks de menú
         binding.toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
-                R.id.action_matches -> {
-                    navController.navigate(R.id.matchesFragment)
-                    true
-                }
+                //R.id.action_matches -> {
+                //    navController.navigate(R.id.matchesFragment)
+                //    true
+                //}
                 R.id.action_sign_out -> {
                     auth.signOut()
                     startActivity(Intent(this, AuthActivity::class.java))
